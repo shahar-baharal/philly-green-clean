@@ -1,6 +1,6 @@
 # Documentation Index — Philly Green Clean
 
-See the monorepo's `docs/DOCUMENTATION-GUIDELINES.md` before adding or editing docs here. Domain, theme and hosting: the site roster in `docs/PROJECT-OVERVIEW.md` (monorepo). Load only the docs relevant to your task:
+See the workspace's `docs/DOCUMENTATION-GUIDELINES.md` before adding or editing docs here. Domain, theme and hosting: the site roster in `docs/PROJECT-OVERVIEW.md` (workspace). Load only the docs relevant to your task:
 
 | Doc | Load when... |
 |-----|-------------|
