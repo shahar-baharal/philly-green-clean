@@ -1,0 +1,14 @@
+# A service-area business: no street address, it comes to the customer.
+# Hours from the old site's data/hours.json; the area from its data/schema.yaml.
+content:
+  title: "Contact us"
+  subtitle: "Call or email for a free estimate."
+  visit_title: "Service area & hours"
+  connect_title: "Get in touch"
+  address:
+    lines:
+      - "Philadelphia, Montgomery, Delaware and Bucks Counties, and South Jersey"
+  office_hours:
+    - "Sun–Thu: 9am – 5pm"
+    - "Fri: 9am – 1pm"
+    - "Sat: Closed"

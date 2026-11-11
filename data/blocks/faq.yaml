@@ -1,0 +1,10 @@
+# The old site's data/faq.json.
+content:
+  title: "Frequently asked questions"
+  items:
+    - question: "How often should I clean my air ducts?"
+      answer: "The EPA and NADCA recommend every 3–5 years for most homes. You may need it sooner if you have pets, allergies, recent renovations, or visible dust coming from vents."
+    - question: "How often should I clean my dryer vent?"
+      answer: "At least once a year for a typical household. If you do heavy laundry or have a long vent run, consider every 6 months. A clogged dryer vent is one of the leading causes of house fires."
+    - question: "How often should I have my chimney swept?"
+      answer: "The National Fire Protection Association recommends an inspection and cleaning at least once a year, regardless of how much you use your fireplace."

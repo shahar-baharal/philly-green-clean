@@ -1,0 +1,4 @@
+# Node 22: Hugo >= 0.164 runs Tailwind v4 with `node --permission`, which Node 20 lacks.
+[tools]
+hugo-extended = "0.168.0"
+node = "22"

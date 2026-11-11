@@ -1,0 +1,29 @@
+# Shared code (QR page, footer icons): ../../themes/hugo-shared. Before blox, so its overrides win.
+[[imports]]
+  path = 'github.com/shahar-baharal/hugo-shared'
+
+[[imports]]
+  path = 'github.com/shahar-baharal/baharal-hugoblox/modules/blox'
+
+[[mounts]]
+  source = 'hugo-blox/blox/community'
+  target = 'layouts/_partials/blox/community/'
+  files = ['**.html']
+
+[[mounts]]
+  source = 'hugo-blox/blox/all-access'
+  target = 'layouts/_partials/blox/'
+  files = ['**.html']
+
+[[mounts]]
+  source = 'hugo-blox/blox'
+  target = 'assets/dist/community/blox/'
+  files = ['**.css']
+
+[[mounts]]
+  source = 'layouts'
+  target = 'layouts'
+
+[[mounts]]
+  source = 'assets'
+  target = 'assets'

@@ -1,0 +1,37 @@
+[hugoblox.meta]
+  format = "hugoblox-theme@1"
+  name = "Philly Green Clean"
+  vendor = "project"
+  version = "1.0.0"
+  license = "MIT"
+  description = "From the logo (green #629E27 + navy #1A2744): AA-safe green primary, navy accent"
+
+[hugoblox]
+  type = "dual"
+
+[hugoblox.light.colors]
+  primary = "#4a7a1d"   # Logo green, darkened to 5.1:1 on white (the logo's #629E27 is 3.3:1: decoration only)
+  secondary = "#1a2744" # Logo navy, 14.8:1 on white
+  neutral = "#475569"   # Slate 600, so text-gray-500 passes AA on the green-tint alt sections (7:1)
+
+[hugoblox.light.surfaces]
+  background = "#ffffff"
+  foreground = "#1a2744"
+  [hugoblox.light.surfaces.header]
+    background = "#ffffff"
+    foreground = "#1a2744"
+  [hugoblox.light.surfaces.section_alt]  # every second homepage block
+    background = "#f4f9ef"  # the old site's light green tint
+
+[hugoblox.dark.colors]
+  primary = "#a3d977"   # Light green for dark backgrounds, 10.5:1
+  secondary = "#93c5fd"
+  neutral = "#475569"
+  on_primary = "#111a2e" # Button text: white fails on the light green; the dark background passes
+
+[hugoblox.dark.surfaces]
+  background = "#111a2e"
+  foreground = "#f1f5f9"
+  [hugoblox.dark.surfaces.header]
+    background = "#1a2744"
+    foreground = "#f1f5f9"

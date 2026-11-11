@@ -1,2 +1,9 @@
-email: 'phillygreencleanllc@gmail.com'
-phone: '267-317-7709'
+# Single source of truth for the phone number and email (from the old
+# hugo-local-biz site's data/contact.yaml). Rendered by the contact-info
+# block (#contact).
+#
+# Static copies that can't read this file — update them too:
+#   config/_default/params.toml  header CTA url (tel:) + seo.location.phone
+#   data/blocks/hero.yaml        primary_action text + url (tel:)
+phone: "(267) 317-7709"
+email: "phillygreencleanllc@gmail.com"

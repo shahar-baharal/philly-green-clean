@@ -1,0 +1,29 @@
+# HugoBlox Font Pack: project override. The old site's pair: Playfair Display
+# headings, Source Sans (now "Source Sans 3" on Google Fonts) body.
+hugoblox:
+  meta:
+    format: "hugoblox-font@1"
+    name: "Philly Green Clean"
+    vendor: "project"
+    version: "1.0.0"
+    license: "MIT"
+    description: "Playfair Display headings, Source Sans 3 body"
+  families:
+    heading: "Playfair Display"
+    body: "Source Sans 3"
+    code: "Ubuntu Mono"
+  weights:
+    heading: [600, 700]
+    body: [400, 600, 700]
+    code: [400, 700]
+  leading:
+    heading: 1.25
+    body: 1.65
+    code: 1.5
+  tracking:
+    heading: "0"
+    body: "0"
+  variable:
+    heading: true
+    body: true
+    code: false

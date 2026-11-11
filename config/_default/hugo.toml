@@ -1,0 +1,52 @@
+title = 'Philly Green Clean'  # business name — copy of params.toml identity.name
+baseURL = 'https://phillygreenclean.com/'
+
+defaultContentLanguage = 'en'
+removePathAccents = true
+
+enableGitInfo = false
+summaryLength = 30
+enableEmoji = true
+enableRobotsTXT = true
+footnotereturnlinkcontents = '<sup>^</sup>'
+ignoreFiles = ['.ipynb_checkpoints$', '\\.Rmd$', '\\.Rmarkdown$', '_cache$']
+disableAliases = true
+timeout = 600000
+
+# Take the theme's build stats (hugo_stats.json, which Tailwind scans for
+# classes) and its CSS cachebusters.
+[build]
+  _merge = 'deep'
+
+[pagination]
+  pagerSize = 10
+
+[outputs]
+  home = ['HTML', 'RSS']
+  section = ['HTML', 'RSS']
+
+# Image settings: hugo-shared's hugo.toml.
+[imaging]
+  _merge = 'deep'
+
+[taxonomies]
+  tag = 'tags'
+  category = 'categories'
+  author = 'authors'
+
+[markup]
+  _merge = 'deep'
+  [markup.highlight]
+    lineNos = false
+
+[security]
+  _merge = 'deep'
+
+[sitemap]
+  _merge = 'deep'
+
+# No social share row on any page (HugoBlox components/page_sharer.html
+# checks the page's `share` param).
+[[cascade]]
+  [cascade.params]
+    share = false

@@ -1,7 +1,12 @@
+# Netlify builds and serves the site on every push to main (the domain's DNS
+# is at Wix, so it isn't on Cloudflare like the other sites).
+# Versions are copies of mise.toml (Netlify doesn't read it); pnpm's comes from
+# package.json's packageManager, and Netlify runs `pnpm install` itself.
 [build]
-  command = "hugo --minify"
+  command = "pnpm run build"
   publish = "public"
 
 [build.environment]
-  HUGO_VERSION = "0.160.1"
+  HUGO_VERSION = "0.168.0"
   HUGO_EXTENDED = "true"
+  NODE_VERSION = "22"

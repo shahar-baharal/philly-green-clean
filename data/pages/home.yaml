@@ -1,0 +1,21 @@
+# Landing page shape. Each block's content lives in data/blocks/<ref>.yaml;
+# the contact block's phone and email come from data/contact.yaml.
+sections:
+  - block: hero
+    ref: hero
+    design:
+      layout: split-left  # text left, content.media right
+      media_frame: false  # the illustration shows bare, no shadow or ring
+      media_mobile: small  # phones: a small copy above the text, CTA stays on the first screen
+      no_padding: true
+      css_style: "min-height: calc(100dvh - var(--header-h, 0px));"
+      css_class: "flex flex-col justify-center"  # content centered in the full-height hero
+  - block: cta-image-paragraph
+    id: services
+    ref: services
+  - block: faq
+    id: faq
+    ref: faq
+  - block: contact-info
+    id: contact
+    ref: contact

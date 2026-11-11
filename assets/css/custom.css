@@ -1,0 +1,13 @@
+/* Philly Green Clean — last-resort CSS only (workspace CLAUDE.md, "Theme
+   conformance"). Everything else lives in config (data/) or in the site's
+   overrides (layouts/, assets/js/hbx/). */
+
+/* Focus ring on every keyboard-focused element (WCAG 2.4.7). Checked: the
+   theme has no focus-style option, and this has to reach every link, button
+   and input on the site, including ones inside vendor blocks that aren't
+   overridden. Uses the foreground token, which flips with dark mode. */
+:focus-visible {
+  outline: 2px solid var(--hb-color-foreground);
+  outline-offset: 3px;
+  border-radius: 2px;
+}

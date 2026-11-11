@@ -1,0 +1,5 @@
+# Approves @parcel/watcher's install script (a transitive dep of the Hugo
+# asset pipeline's fs-watching support) so `pnpm install` doesn't stall
+# waiting for interactive `pnpm approve-builds` approval.
+onlyBuiltDependencies:
+  - "@parcel/watcher"

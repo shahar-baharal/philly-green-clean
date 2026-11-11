@@ -1,0 +1,5 @@
+# English only. The old site's partial French (i18n/fr.yaml) wasn't carried over.
+[en]
+  locale = 'en-us'
+  label = 'English'
+  weight = 1

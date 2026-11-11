@@ -1,0 +1,188 @@
+[hugoblox]
+  schema = "2.0"
+  # baharal-hugoblox options (its MENASHE-FORGE.md)
+  smooth_scroll = true
+  [hugoblox.hooks]
+    # hugo-shared partials: full-screen hero height, GA4 lead tracking
+    # (contact_click; does nothing without gtag on the page)
+    body_end = ["set-header-height", "ga-contact-clicks"]
+
+  [hugoblox.identity]
+    # Business name — source of truth. Static copies that can't read this
+    # file — update them too:
+    #   config/_default/hugo.toml  title
+    #   content/_index.md          title
+    #   static/admin/config.yml    app_title
+    name = "Philly Green Clean"
+    type = "LocalBusiness"  # exact schema.org token (jsonld/business.html override)
+    tagline = "Breathe cleaner air"
+    description = "Air duct, dryer vent and chimney cleaning in the Philadelphia area. Residential and commercial service with reliable scheduling, fair pricing and thorough cleaning."
+    [hugoblox.identity.social]
+      twitter = ""
+      links = []
+
+  [hugoblox.theme]
+    mode = "system"
+    pack = "philly-green-clean"
+    colors_light = {}
+    colors_dark = {}
+    [hugoblox.theme.colors]
+      primary = ""
+      secondary = ""
+      neutral = ""
+    [hugoblox.theme.surfaces]
+      background = ""
+      foreground = ""
+      [hugoblox.theme.surfaces.header]
+        background = ""
+        foreground = ""
+      [hugoblox.theme.surfaces.footer]
+        background = ""
+        foreground = ""
+
+  [hugoblox.typography]
+    pack = "philly-green-clean"
+
+  [hugoblox.layout]
+    radius = "md"
+    spacing = "compact"
+    avatar_shape = "circle"
+
+  [hugoblox.header]
+    enable = true
+    block = "navbar"
+    sticky = true
+    show_logo = true  # assets/media/logo.png, rendered from logo-src.svg (the old site's logo)
+    show_title = false  # the logo already contains the name
+    logo_dark = "media/logo-dark.png"  # logo-src.svg with the navy text recolored white
+    title = ""
+    align = "left"
+    search = false
+    theme_toggle = true
+    theme_picker = false
+    language_switcher = false
+    # Copy of data/contact.yaml's phone — a static config field can't read
+    # that file.
+    [hugoblox.header.cta]
+      enable = true
+      text = "Call now"
+      url = "tel:+12673177709"
+      icon = "hero/phone"
+
+  [hugoblox.footer]
+    style = "minimal"
+    show_logo = true
+    show_title = true
+    show_tagline = true
+    title = ""
+    language_switcher = false
+    show_social = true
+    text = 'Website by <a class="underline" href="https://shahar.best/" target="_blank" rel="noopener">Shahar Best</a>'  # raw HTML (vendor goldmark unsafe=true) for the underline class
+
+  [hugoblox.copyright]
+    notice = "© {year} Philly Green Clean LLC"
+    [hugoblox.copyright.license]
+      type = "custom"
+      allow_derivatives = false
+      share_alike = true
+      allow_commercial = false
+
+  [hugoblox.seo]
+    title = ""
+    # Copy of data/contact.yaml's phone (the JSON-LD partial reads only this
+    # table). A service-area business: city only, no street.
+    [hugoblox.seo.location]
+      phone = "+1-267-317-7709"
+      [hugoblox.seo.location.address]
+        city = "Philadelphia"
+        region = "PA"
+        country = "US"
+    [hugoblox.seo.ai]
+      allow = ["/"]
+      disallow = []
+      note = "Guidance for AI crawlers - customize to match your public content."
+      contact = ""
+
+  [hugoblox.content]
+    [hugoblox.content.math]
+      enable = false
+    [hugoblox.content.toc]
+      enable = false
+    [hugoblox.content.reading_time]
+      enable = false
+    [hugoblox.content.citations]
+      style = "apa"
+
+  [hugoblox.search]
+    enable = false
+    suggestions = []
+    quick_actions = []
+
+  [hugoblox.comments]
+    enable = false
+    provider = ""
+    [hugoblox.comments.giscus]
+      repo = ""
+      repo_id = ""
+      category = ""
+      category_id = ""
+    [hugoblox.comments.disqus]
+      shortname = ""
+
+  [hugoblox.analytics]
+    [hugoblox.analytics.google]
+      measurement_id = ""
+    # The old site's GTM container. Public.
+    [hugoblox.analytics.google_tag_manager]
+      container_id = "GTM-NSV6FQWB"
+    [hugoblox.analytics.plausible]
+      domain = ""
+    [hugoblox.analytics.fathom]
+      site_id = ""
+    [hugoblox.analytics.pirsch]
+      site_id = ""
+    [hugoblox.analytics.clarity]
+      project_id = ""
+    [hugoblox.analytics.baidu]
+      site_id = ""
+
+  [hugoblox.verification]
+    google = ""
+    bing = ""
+    baidu = ""
+    yandex = ""
+    pinterest = ""
+    naver = ""
+
+  [hugoblox.repository]
+    enable = false
+    url = ""
+    branch = "main"
+    content_dir = ""
+
+  [hugoblox.locale]
+    date_format = "Jan 2, 2006"
+    time_format = "3:04 PM"
+    address_format = "en-us"
+
+  [hugoblox.security]
+    frame_options = "allow"
+    permissions_policy = ""
+    [hugoblox.security.csp]
+      policy = ""
+      report_only = false
+
+  [hugoblox.privacy]
+    enable = false
+    anonymize_analytics = true
+
+  [hugoblox.debug]
+    enable = false
+    export_logs = true
+    [hugoblox.debug.hud]
+      position = "bottom-left"
+      opacity = 1.0
+
+  [hugoblox.pro]
+    hide_attribution = false
+    affiliate_code = ""

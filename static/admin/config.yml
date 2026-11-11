@@ -6,103 +6,105 @@ backend:
 
 site_url: https://phillygreenclean.com
 
-media_folder: static/images
-public_folder: /images
+app_title: "Philly Green Clean - Content"
+
+# Uploads go into the repo (no R2 bucket: the site is on Netlify).
+media_folder: assets/media/uploads
+public_folder: media/uploads
 
 collections:
-  - name: "services"
-    label: "Services"
+  - name: "landing_page"
+    label: "Home page"
     files:
+      - label: "Hero"
+        name: "hero"
+        file: "data/blocks/hero.yaml"
+        fields:
+          - label: "Content"
+            name: "content"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Text", name: "text", widget: "text" }
+              - label: "Primary button"
+                name: "primary_action"
+                widget: "object"
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Link", name: "url", widget: "string" }
+                  - { label: "Style", name: "style", widget: "string" }
+              - label: "Secondary button"
+                name: "secondary_action"
+                widget: "object"
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Link", name: "url", widget: "string" }
+              - label: "Image"
+                name: "media"
+                widget: "object"
+                fields:
+                  - { label: "Image", name: "src", widget: "image" }
+                  - { label: "Description (alt text)", name: "alt", widget: "string" }
+
       - label: "Services"
         name: "services"
-        file: "data/services.json"
+        file: "data/blocks/services.yaml"
         fields:
-          - label: "Services"
-            name: "services"
-            widget: "list"
+          - label: "Content"
+            name: "content"
+            widget: "object"
             fields:
               - { label: "Title", name: "title", widget: "string" }
-              - { label: "Summary", name: "summary", widget: "text", hint: "Short description shown on the homepage." }
-              - { label: "Icon", name: "icon", widget: "image", required: false, hint: "Icon displayed above the service title on the homepage." }
+              - label: "Services"
+                name: "items"
+                widget: "list"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Text", name: "text", widget: "text" }
 
-  - name: "pages"
-    label: "Pages"
-    files:
-      - label: "Homepage"
-        name: "homepage"
-        file: "content/_index.md"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Meta Title", name: "meta_title", widget: "string" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Social Preview Image", name: "og_image", widget: "image", required: false, hint: "Overrides the default social image for this page only." }
-          - { label: "Hero Image", name: "intro_image", widget: "image", required: false }
-          - { label: "Hero Image Absolute Position", name: "intro_image_absolute", widget: "boolean", default: true, required: false }
-          - { label: "Hero Image Hide on Mobile", name: "intro_image_hide_on_mobile", widget: "boolean", default: true, required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
-
-  - name: "faq"
-    label: "FAQ"
-    files:
-      - label: "Questions & Answers"
+      - label: "FAQ"
         name: "faq"
-        file: "data/faq.json"
+        file: "data/blocks/faq.yaml"
         fields:
-          - label: "Questions & Answers"
-            name: "items"
-            widget: "list"
+          - label: "Content"
+            name: "content"
+            widget: "object"
             fields:
-              - { label: "Question", name: "question", widget: "string" }
-              - { label: "Answer", name: "answer", widget: "text" }
+              - { label: "Title", name: "title", widget: "string" }
+              - label: "Questions"
+                name: "items"
+                widget: "list"
+                fields:
+                  - { label: "Question", name: "question", widget: "string" }
+                  - { label: "Answer", name: "answer", widget: "text" }
 
-  - name: "business_info"
-    label: "Business Info"
-    files:
-      - label: "Contact Info"
+      - label: "Contact & hours"
         name: "contact"
+        file: "data/blocks/contact.yaml"
+        fields:
+          - label: "Content"
+            name: "content"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Service area title", name: "visit_title", widget: "string" }
+              - { label: "Contact title", name: "connect_title", widget: "string" }
+              - label: "Service area"
+                name: "address"
+                widget: "object"
+                fields:
+                  - { label: "Lines", name: "lines", widget: "list" }
+              - { label: "Hours", name: "office_hours", widget: "list" }
+
+  - name: "settings"
+    label: "Site settings"
+    files:
+      - label: "Contact details"
+        name: "contact_details"
         file: "data/contact.yaml"
         fields:
-          - { label: "Phone", name: "phone", widget: "string" }
-          - { label: "Email", name: "email", widget: "string" }
-
-      - label: "Business Hours"
-        name: "hours"
-        file: "data/hours.json"
-        fields:
-          - label: "Hours"
-            name: "hours"
-            widget: "list"
-            fields:
-              - { label: "Day", name: "day", widget: "string" }
-              - { label: "Closed", name: "closed", widget: "boolean", default: false, required: false }
-              - { label: "Opens", name: "opens", widget: "string", required: false, hint: "24-hour format, e.g. 09:00. Leave empty if closed." }
-              - { label: "Closes", name: "closes", widget: "string", required: false, hint: "24-hour format, e.g. 17:00. Leave empty if closed." }
-
-  - name: "seo"
-    label: "SEO"
-    files:
-      - label: "Social Previews"
-        name: "seo"
-        file: "data/seo.yaml"
-        fields:
-          - label: "Default Social Image"
-            name: "og_image"
-            widget: "image"
-            required: false
-            hint: "Recommended: 1200×630px JPG. Shown when any page is shared on WhatsApp, Facebook, Slack, iMessage, etc."
-          - label: "Default Social Description"
-            name: "og_description"
-            widget: "text"
-            required: false
-            hint: "Shown under the title in social previews. Falls back to the page description if set."
-          - label: "Twitter/X Handle"
-            name: "twitter_site"
-            widget: "string"
-            required: false
-            hint: "Include the @ symbol, e.g. @phillygreenclean"
-          - label: "Twitter Card Style"
-            name: "twitter_card"
-            widget: "select"
-            options: ["summary_large_image", "summary"]
-            default: "summary_large_image"
-            hint: "summary_large_image shows a big banner image — recommended."
+          - { label: "Phone", name: "phone", widget: "string", required: false, hint: "e.g. (267) 317-7709. Also update the hero button and the header's Call now link." }
+          - { label: "Email", name: "email", widget: "string", required: false }

@@ -1,0 +1,4 @@
+# HugoBlox reads this to set dir="rtl" on <html> for RTL languages.
+# baseof.html checks hugo.Data.i18n.rtl.rtl against site.Language.Locale.
+# Both short codes and locale-qualified forms are included.
+rtl = ["ar", "ar-SA", "fa", "fa-IR", "he", "he-IL", "ur", "ur-PK"]

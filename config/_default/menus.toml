@@ -1,0 +1,29 @@
+# In-page anchors to the landing-page sections (data/pages/home.yaml ids).
+[[main]]
+  name = 'Services'
+  url = '/#services'
+  weight = 10
+
+[[main]]
+  name = 'FAQ'
+  url = '/#faq'
+  weight = 20
+
+[[main]]
+  name = 'Contact'
+  url = '/#contact'
+  weight = 30
+
+[[footer]]
+  name = 'Edit'
+  url = '/admin'
+  weight = 60
+  [footer.params]
+    root_absolute = true
+
+[[footer]]
+  name = 'QR code'
+  pageRef = '/qr'
+  weight = 55
+  [footer.params]
+    icon = 'qr-code'

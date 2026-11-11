@@ -1,0 +1,18 @@
+content:
+  eyebrow: "Philadelphia & surrounding areas"
+  title: "Breathe cleaner air."
+  text: >-
+    Professional air duct, dryer vent and chimney cleaning for homes and
+    businesses in Philadelphia and the surrounding counties.
+  # url is a copy of data/contact.yaml's phone.
+  primary_action:
+    text: "Call (267) 317-7709"
+    url: "tel:+12673177709"
+    style: solid
+  secondary_action:
+    text: "Our services"
+    url: "#services"
+  # assets/media/hero.webp, converted from the old site's cleaning_guy.png.
+  media:
+    src: media/hero.webp
+    alt: "A technician in a mask cleaning a floor air duct with a hose"
