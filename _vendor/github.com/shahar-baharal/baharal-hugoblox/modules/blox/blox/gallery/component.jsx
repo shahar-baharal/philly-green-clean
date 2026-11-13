@@ -1,5 +1,8 @@
 import {useState, useEffect, useRef, useCallback} from "preact/hooks";
 import {createPortal} from "preact/compat";
+import {renderInline} from "../../shared/text.js";
+import {Strings, useT} from "../../shared/i18n.js";
+import {inlineX} from "../../shared/direction.js";
 
 /*
  * Gallery block — grid / masonry / justified / carousel / slideshow + Preact
@@ -59,17 +62,9 @@ const CAROUSEL_BASIS = {
 const SIZES_DEFAULT_GRID = "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw";
 const SIZES_DEFAULT_MASONRY = "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw";
 
-function renderInline(text) {
-  if (!text) return "";
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>");
-}
 
 function GridTile({item, onClick, aspectClass, captionPosition, hoverZoom, sizes, lightbox}) {
+  const tr = useT();
   const [loaded, setLoaded] = useState(false);
   const imgClass = loaded
     ? "absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-100"
@@ -86,7 +81,7 @@ function GridTile({item, onClick, aspectClass, captionPosition, hoverZoom, sizes
         type="button"
         onClick={onClick}
         class="absolute inset-0 w-full h-full block cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-        aria-label={lightbox ? `Open image: ${item.alt || item.caption || ""}` : item.alt || item.caption || "Image"}
+        aria-label={lightbox ? tr("block_gallery_open_image", {name: item.alt || item.caption || ""}) : item.alt || item.caption || tr("block_gallery_image")}
       >
         <span
           class="hbx-gallery-tile-lqip absolute inset-0 w-full h-full"
@@ -106,7 +101,7 @@ function GridTile({item, onClick, aspectClass, captionPosition, hoverZoom, sizes
           onLoad={() => setLoaded(true)}
         />
         {showOverlay && (
-          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-left">
+          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-start">
             <span class="block text-sm font-semibold text-white" dangerouslySetInnerHTML={{__html: item.title || item.caption}} />
             {item.title && item.caption && (
               <span class="block text-xs text-gray-200 mt-1" dangerouslySetInnerHTML={{__html: item.caption}} />
@@ -133,6 +128,7 @@ function GridTile({item, onClick, aspectClass, captionPosition, hoverZoom, sizes
 }
 
 function MasonryTile({item, onClick, captionPosition, hoverZoom, sizes, lightbox}) {
+  const tr = useT();
   const [loaded, setLoaded] = useState(false);
   const imgClass = loaded
     ? "w-full h-auto block transition-opacity duration-500 opacity-100"
@@ -153,7 +149,7 @@ function MasonryTile({item, onClick, captionPosition, hoverZoom, sizes, lightbox
         type="button"
         onClick={onClick}
         class="relative block w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-        aria-label={lightbox ? `Open image: ${item.alt || item.caption || ""}` : item.alt || item.caption || "Image"}
+        aria-label={lightbox ? tr("block_gallery_open_image", {name: item.alt || item.caption || ""}) : item.alt || item.caption || tr("block_gallery_image")}
         style={aspectStyle}
       >
         <span
@@ -174,7 +170,7 @@ function MasonryTile({item, onClick, captionPosition, hoverZoom, sizes, lightbox
           onLoad={() => setLoaded(true)}
         />
         {showOverlay && (
-          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-left">
+          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-start">
             <span class="block text-sm font-semibold text-white" dangerouslySetInnerHTML={{__html: item.title || item.caption}} />
             {item.title && item.caption && (
               <span class="block text-xs text-gray-200 mt-1" dangerouslySetInnerHTML={{__html: item.caption}} />
@@ -204,6 +200,7 @@ function MasonryTile({item, onClick, captionPosition, hoverZoom, sizes, lightbox
    from its precomputed aspect ratio so widths reflect image proportions; flex-grow
    takes care of filling each row exactly (the browser does the row-balancing math). */
 function JustifiedTile({item, rowHeight, onClick, captionPosition, hoverZoom, sizes, lightbox}) {
+  const tr = useT();
   const [loaded, setLoaded] = useState(false);
   const ar = item.aspect_ratio || 1;
   const imgClass = loaded
@@ -224,7 +221,7 @@ function JustifiedTile({item, rowHeight, onClick, captionPosition, hoverZoom, si
         type="button"
         onClick={onClick}
         class="absolute inset-0 w-full h-full block cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-        aria-label={lightbox ? `Open image: ${item.alt || item.caption || ""}` : item.alt || item.caption || "Image"}
+        aria-label={lightbox ? tr("block_gallery_open_image", {name: item.alt || item.caption || ""}) : item.alt || item.caption || tr("block_gallery_image")}
       >
         <span
           class="hbx-gallery-tile-lqip absolute inset-0 w-full h-full"
@@ -244,7 +241,7 @@ function JustifiedTile({item, rowHeight, onClick, captionPosition, hoverZoom, si
           onLoad={() => setLoaded(true)}
         />
         {showOverlay && (
-          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-left">
+          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-start">
             <span class="block text-sm font-semibold text-white" dangerouslySetInnerHTML={{__html: item.title || item.caption}} />
             {item.title && item.caption && (
               <span class="block text-xs text-gray-200 mt-1" dangerouslySetInnerHTML={{__html: item.caption}} />
@@ -284,6 +281,7 @@ function JustifiedView({items, design, openLightbox, gapClass, sizes}) {
 /* Carousel — horizontal scroll-snap strip. CSS does the snap, optional prev/next
    buttons (desktop only — touch users swipe natively). */
 function CarouselTile({item, basisClass, onClick, aspectClass, captionPosition, hoverZoom, sizes, lightbox}) {
+  const tr = useT();
   const [loaded, setLoaded] = useState(false);
   const imgClass = loaded
     ? "absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-100"
@@ -299,7 +297,7 @@ function CarouselTile({item, basisClass, onClick, aspectClass, captionPosition, 
         type="button"
         onClick={onClick}
         class={`relative block w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${aspectClass}`}
-        aria-label={lightbox ? `Open image: ${item.alt || item.caption || ""}` : item.alt || item.caption || "Image"}
+        aria-label={lightbox ? tr("block_gallery_open_image", {name: item.alt || item.caption || ""}) : item.alt || item.caption || tr("block_gallery_image")}
       >
         <span
           class="hbx-gallery-tile-lqip absolute inset-0 w-full h-full"
@@ -319,7 +317,7 @@ function CarouselTile({item, basisClass, onClick, aspectClass, captionPosition, 
           onLoad={() => setLoaded(true)}
         />
         {showOverlay && (
-          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-left">
+          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-start">
             <span class="block text-sm font-semibold text-white" dangerouslySetInnerHTML={{__html: item.title || item.caption}} />
             {item.title && item.caption && (
               <span class="block text-xs text-gray-200 mt-1" dangerouslySetInnerHTML={{__html: item.caption}} />
@@ -346,22 +344,30 @@ function CarouselTile({item, basisClass, onClick, aspectClass, captionPosition, 
 }
 
 function CarouselView({items, design, openLightbox, gapClass, aspectClass, sizes, columns}) {
+  const tr = useT();
   const scrollRef = useRef(null);
   const basisClass = CAROUSEL_BASIS[columns] || CAROUSEL_BASIS[3];
 
   const scrollByItem = useCallback((dir) => {
     const el = scrollRef.current;
     if (!el) return;
-    const tile = el.querySelector(".hbx-gallery-carousel-item");
-    const step = tile ? tile.clientWidth + 16 : el.clientWidth * 0.8;
-    el.scrollBy({left: dir * step, behavior: "smooth"});
+    // Scroll the tile after (or before) the first visible one to the start
+    // edge: DOM order is reading order, so this needs no direction check.
+    const tiles = [...el.querySelectorAll(".hbx-gallery-carousel-item")];
+    const box = el.getBoundingClientRect();
+    const visible = tiles.findIndex((t) => {
+      const r = t.getBoundingClientRect();
+      return Math.min(r.right, box.right) - Math.max(r.left, box.left) > r.width / 2;
+    });
+    const target = tiles[Math.max(0, Math.min(tiles.length - 1, Math.max(0, visible) + dir))];
+    target?.scrollIntoView({inline: "start", block: "nearest", behavior: "smooth"});
   }, []);
 
   return (
     <div class="relative">
       <div
         ref={scrollRef}
-        class={`hbx-gallery-carousel flex overflow-x-auto snap-x snap-mandatory scroll-pl-4 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 pb-2 ${gapClass}`}
+        class={`hbx-gallery-carousel flex overflow-x-auto snap-x snap-mandatory hbb-bleed scroll-ps-[var(--hb-gutter)] px-[var(--hb-gutter)] pb-2 ${gapClass}`}
       >
         {items.map((item, i) => (
           <CarouselTile
@@ -382,20 +388,20 @@ function CarouselView({items, design, openLightbox, gapClass, aspectClass, sizes
           <button
             type="button"
             onClick={() => scrollByItem(-1)}
-            class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white shadow-lg hover:bg-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
-            aria-label="Scroll previous"
+            class="hidden md:flex absolute start-2 top-1/2 -translate-y-1/2 z-10 h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white shadow-lg hover:bg-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+            aria-label={tr("block_gallery_scroll_previous")}
           >
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <svg class="h-5 w-5 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             type="button"
             onClick={() => scrollByItem(1)}
-            class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white shadow-lg hover:bg-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
-            aria-label="Scroll next"
+            class="hidden md:flex absolute end-2 top-1/2 -translate-y-1/2 z-10 h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white shadow-lg hover:bg-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+            aria-label={tr("block_gallery_scroll_next")}
           >
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <svg class="h-5 w-5 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -408,6 +414,7 @@ function CarouselView({items, design, openLightbox, gapClass, aspectClass, sizes
 /* Slideshow — single image at a time, dots + arrows + optional autoplay with
    pause-on-hover. Touch swipe reuses the lightbox's gesture handling. */
 function SlideshowView({items, design, openLightbox, aspectClass, sizes}) {
+  const tr = useT();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const touchStart = useRef({x: 0, y: 0, t: 0});
@@ -434,7 +441,7 @@ function SlideshowView({items, design, openLightbox, aspectClass, sizes}) {
     const dy = t.clientY - touchStart.current.y;
     const dt = Date.now() - touchStart.current.t;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) && dt < 600) {
-      if (dx < 0) next();
+      if (inlineX(e.currentTarget, dx) < 0) next();
       else prev();
     }
   }
@@ -445,7 +452,7 @@ function SlideshowView({items, design, openLightbox, aspectClass, sizes}) {
 
   return (
     <div
-      class="relative"
+      class="relative hbb-bleed"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -467,7 +474,7 @@ function SlideshowView({items, design, openLightbox, aspectClass, sizes}) {
               type="button"
               onClick={() => openLightbox(i)}
               class="absolute inset-0 w-full h-full block cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset"
-              aria-label={lightbox ? `Open image: ${it.alt || it.caption || ""}` : it.alt || it.caption || "Image"}
+              aria-label={lightbox ? tr("block_gallery_open_image", {name: it.alt || it.caption || ""}) : it.alt || it.caption || tr("block_gallery_image")}
             >
               <img
                 src={it.src}
@@ -499,20 +506,20 @@ function SlideshowView({items, design, openLightbox, aspectClass, sizes}) {
             <button
               type="button"
               onClick={prev}
-              class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white shadow-lg hover:bg-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
-              aria-label="Previous slide"
+              class="absolute start-2 sm:start-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white shadow-lg hover:bg-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+              aria-label={tr("block_gallery_previous_slide")}
             >
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <svg class="h-5 w-5 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               type="button"
               onClick={next}
-              class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white shadow-lg hover:bg-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
-              aria-label="Next slide"
+              class="absolute end-2 sm:end-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white shadow-lg hover:bg-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+              aria-label={tr("block_gallery_next_slide")}
             >
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <svg class="h-5 w-5 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -528,7 +535,7 @@ function SlideshowView({items, design, openLightbox, aspectClass, sizes}) {
               type="button"
               onClick={() => setIndex(i)}
               class={i === index ? "h-2 w-8 rounded-full bg-primary-600 dark:bg-primary-400 transition-all duration-300" : "h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 transition-all duration-300"}
-              aria-label={`Go to slide ${i + 1}`}
+              aria-label={tr("block_gallery_go_to_slide", {n: i + 1})}
               aria-current={i === index ? "true" : "false"}
             />
           ))}
@@ -548,6 +555,7 @@ function SlideshowView({items, design, openLightbox, aspectClass, sizes}) {
 }
 
 function Lightbox({items, index, onClose, onPrev, onNext}) {
+  const tr = useT();
   const item = items[index];
   const touchStart = useRef({x: 0, y: 0, t: 0});
 
@@ -564,8 +572,10 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
   useEffect(() => {
     function onKey(e) {
       if (e.key === "Escape") onClose();
-      else if (e.key === "ArrowLeft") onPrev();
-      else if (e.key === "ArrowRight") onNext();
+      else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        if (inlineX(document.documentElement, e.key === "ArrowRight" ? 1 : -1) > 0) onNext();
+        else onPrev();
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -581,7 +591,7 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
     const dy = t.clientY - touchStart.current.y;
     const dt = Date.now() - touchStart.current.t;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) && dt < 600) {
-      if (dx < 0) onNext();
+      if (inlineX(e.currentTarget, dx) < 0) onNext();
       else onPrev();
     }
   }
@@ -593,7 +603,7 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
       class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
-      aria-label="Image lightbox"
+      aria-label={tr("block_gallery_lightbox")}
       onClick={onClose}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
@@ -604,8 +614,8 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
           e.stopPropagation();
           onClose();
         }}
-        class="absolute top-4 right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
-        aria-label="Close"
+        class="absolute top-4 end-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
+        aria-label={tr("block_gallery_close")}
       >
         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -620,10 +630,10 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
               e.stopPropagation();
               onPrev();
             }}
-            class="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
-            aria-label="Previous image"
+            class="absolute start-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
+            aria-label={tr("block_gallery_previous_image")}
           >
-            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <svg class="h-6 w-6 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -633,10 +643,10 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
               e.stopPropagation();
               onNext();
             }}
-            class="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
-            aria-label="Next image"
+            class="absolute end-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
+            aria-label={tr("block_gallery_next_image")}
           >
-            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <svg class="h-6 w-6 rtl:-scale-x-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -675,7 +685,7 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
           </figcaption>
         )}
         {items.length > 1 && (
-          <div class="absolute -top-10 left-0 text-xs text-gray-300 font-mono">
+          <div class="absolute -top-10 start-0 text-xs text-gray-300 font-mono">
             {index + 1} / {items.length}
           </div>
         )}
@@ -684,7 +694,13 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
   );
 }
 
-export const GalleryBlock = ({content = {}, design = {}, items = []}) => {
+export const GalleryBlock = (props) => (
+  <Strings.Provider value={props.t || {}}>
+    <GalleryBlockInner {...props} />
+  </Strings.Provider>
+);
+
+function GalleryBlockInner({content = {}, design = {}, items = []}) {
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   const layout = design.layout || "grid";
@@ -781,7 +797,7 @@ export const GalleryBlock = ({content = {}, design = {}, items = []}) => {
   }
 
   return (
-    <div class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <div class="py-12 sm:py-16">
       <div class="max-w-7xl mx-auto">
         {(content.title || content.subtitle) && (
           <div class="text-center max-w-3xl mx-auto mb-10">
@@ -811,4 +827,4 @@ export const GalleryBlock = ({content = {}, design = {}, items = []}) => {
         )}
     </div>
   );
-};
+}

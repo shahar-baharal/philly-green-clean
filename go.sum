@@ -24,6 +24,8 @@ github.com/shahar-baharal/baharal-hugoblox/modules/blox v0.0.0-20261110141537-3f
 github.com/shahar-baharal/baharal-hugoblox/modules/blox v0.0.0-20261110141537-3fc227d63239/go.mod h1:/mi49xd07TJLQjf9kRpx6hC/xXZZx3f8ZE2Ja2tTCkE=
 github.com/shahar-baharal/baharal-hugoblox/modules/blox v0.0.0-20261111141720-b42d5f2b7803 h1:5q64XW0q0xqd0dI/IBZ1IvtSKMSCCAgOIj5b2fInGzE=
 github.com/shahar-baharal/baharal-hugoblox/modules/blox v0.0.0-20261111141720-b42d5f2b7803/go.mod h1:/mi49xd07TJLQjf9kRpx6hC/xXZZx3f8ZE2Ja2tTCkE=
+github.com/shahar-baharal/baharal-hugoblox/modules/blox v0.0.0-20261113131318-617d17e7a15b h1:2/sVVtCmS/oppacoSy8jjZthuLSgp0rNUDnVA1x+ZdI=
+github.com/shahar-baharal/baharal-hugoblox/modules/blox v0.0.0-20261113131318-617d17e7a15b/go.mod h1:/mi49xd07TJLQjf9kRpx6hC/xXZZx3f8ZE2Ja2tTCkE=
 github.com/shahar-baharal/hugo-shared v0.0.0-20261102194024-7dd6086fd604 h1:yLaIJ9KBVTRNJ4lR6N5pUwedWOsFqJE8lnyAlBjczy4=
 github.com/shahar-baharal/hugo-shared v0.0.0-20261102194024-7dd6086fd604/go.mod h1:47O5Fy25i9DSIIrhb3FvDTUIz5qvz+mNBEOTF45RIsQ=
 github.com/shahar-baharal/hugo-shared v0.0.0-20261102202750-724d05f08e30 h1:7yOe85I5wqjmv1z+3n5Yub3hIJHpt5M37lK651GL964=

@@ -4,15 +4,9 @@
  */
 
 import {Icon} from "../../shared/components/Icon.jsx";
+import {renderInline} from "../../shared/text.js";
+import {isExternal} from "../../shared/links.js";
 
-// Simple markdown renderer
-export function renderText(text) {
-  if (!text) return "";
-  return String(text)
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/`(.*?)`/g, "<code>$1</code>");
-}
 
 // Title renderer: supports [highlight] syntax for gradient-text spans (in addition to markdown).
 // `[word]` becomes a primary→secondary gradient span. Negative lookahead `(?!\()` avoids
@@ -31,7 +25,7 @@ export function renderTitle(text) {
 // Process URLs
 export function processUrl(url) {
   if (!url) return {href: "#"};
-  if (url.startsWith("http://") || url.startsWith("https://")) {
+  if (isExternal(url)) {
     return {href: url, target: "_blank", rel: "noopener"};
   }
   return {href: url};
@@ -60,7 +54,7 @@ function ActionButton({action, defaultStyle, iconSvg}) {
 
   return (
     <a href={url.href} {...(url.target && {target: url.target, rel: url.rel})} class={`inline-flex items-center gap-2 ${cls}`}>
-      <span dangerouslySetInnerHTML={{__html: renderText(action.text)}} />
+      <span dangerouslySetInnerHTML={{__html: renderInline(action.text)}} />
       {iconSvg && (
         <span class="inline-flex">
           <Icon svg={iconSvg} attributes={{style: "height: 1em", class: "inline-block"}} />
@@ -95,7 +89,7 @@ function TrustStrip({trust, alignKey = "center"}) {
   return (
     <div class={`mt-8 flex items-center ${justify} gap-3 flex-wrap`}>
       {stars != null && <StarStrip stars={stars} />}
-      {text && <span class="text-sm text-gray-600 dark:text-gray-400" dangerouslySetInnerHTML={{__html: renderText(text)}} />}
+      {text && <span class="text-sm text-gray-600 dark:text-gray-400" dangerouslySetInnerHTML={{__html: renderInline(text)}} />}
     </div>
   );
 }
@@ -117,10 +111,10 @@ function AnnouncementPill({announcement, alignKey = "center"}) {
 
   return (
     <div class={`hidden sm:mb-8 sm:flex ${justify}`}>
-      <div class="relative flex items-center gap-2 rounded-full pl-1 pr-4 py-1 text-sm leading-6 text-gray-600 dark:text-gray-300 ring-1 ring-gray-900/10 dark:ring-gray-300/30 hover:ring-gray-900/20 dark:hover:ring-gray-300/50 transition-all">
+      <div class="relative flex items-center gap-2 rounded-full ps-1 pe-4 py-1 text-sm leading-6 text-gray-600 dark:text-gray-300 ring-1 ring-gray-900/10 dark:ring-gray-300/30 hover:ring-gray-900/20 dark:hover:ring-gray-300/50 transition-all">
         {badge?.text && <span class={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${badgeCls}`}>{badge.text}</span>}
-        {!badge?.text && <span class="pl-2" />}
-        <span dangerouslySetInnerHTML={{__html: renderText(announcement.text)}} />
+        {!badge?.text && <span class="ps-2" />}
+        <span dangerouslySetInnerHTML={{__html: renderInline(announcement.text)}} />
         {announcement.link?.text && (
           <a
             href={processUrl(announcement.link.url).href}
@@ -131,7 +125,7 @@ function AnnouncementPill({announcement, alignKey = "center"}) {
             class="font-semibold text-primary-600 dark:text-primary-300"
           >
             <span class="absolute inset-0" aria-hidden="true" />
-            {announcement.link.text} <span aria-hidden="true">→</span>
+            {announcement.link.text} <span aria-hidden="true" class="inline-block rtl:-scale-x-100">→</span>
           </a>
         )}
       </div>
@@ -142,12 +136,13 @@ function AnnouncementPill({announcement, alignKey = "center"}) {
 // Hero size presets — full literal class strings (Tailwind scanner safety).
 // `default` is the modern 2026 baseline (~96-160px vertical padding).
 // `tall` is the legacy size for when the hero needs more visual weight.
-// `viewport` fills the screen — vertically centred content, useful for splash heroes.
+// `viewport` fills the screen: the section wrapper sizes and centres it
+// (.hbb-viewport), so the hero adds no height of its own.
 const SIZE_CLASSES = {
   compact: "py-16 sm:py-20 lg:py-24",
   default: "py-24 sm:py-32 lg:py-40",
   tall: "py-32 sm:py-48 lg:py-56",
-  viewport: "min-h-screen flex flex-col justify-center py-16",
+  viewport: "",
   none: "",
 };
 
@@ -222,7 +217,7 @@ function Media({media, mediaImage, mediaImageDark, frame = true}) {
 // Hero Block Component - Single implementation
 export const HeroBlock = ({content, design, _id, icon_svg, secondary_icon_svg, media_image, media_image_dark}) => {
   // Backward compat: legacy `no_padding: true` maps to size: "none"
-  const sizeKey = SIZE_CLASSES[design?.size] ? design.size : design?.no_padding ? "none" : "default";
+  const sizeKey = Object.hasOwn(SIZE_CLASSES, design?.size ?? "") ? design.size : design?.no_padding ? "none" : "default";
   const sizeClasses = SIZE_CLASSES[sizeKey];
 
   const layoutKey = LAYOUTS[design?.layout] ? design.layout : "centered";
@@ -241,7 +236,7 @@ export const HeroBlock = ({content, design, _id, icon_svg, secondary_icon_svg, m
         {content.eyebrow && (
           <p
             class="mb-4 text-sm font-semibold uppercase tracking-wider text-primary-600 dark:text-primary-400"
-            dangerouslySetInnerHTML={{__html: renderText(content.eyebrow)}}
+            dangerouslySetInnerHTML={{__html: renderInline(content.eyebrow)}}
           />
         )}
         {content.title && (
@@ -253,7 +248,7 @@ export const HeroBlock = ({content, design, _id, icon_svg, secondary_icon_svg, m
         {content.text && (
           <p
             class={`mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300 max-w-2xl ${mxAuto}`}
-            dangerouslySetInnerHTML={{__html: renderText(content.text)}}
+            dangerouslySetInnerHTML={{__html: renderInline(content.text)}}
           />
         )}
         {(content.primary_action?.url || content.secondary_action?.url) && (
@@ -275,11 +270,14 @@ export const HeroBlock = ({content, design, _id, icon_svg, secondary_icon_svg, m
   // Split layout: two-column grid, optionally reversed
   if (layout.grid) {
     return (
-      <div class="relative isolate px-6 lg:px-8">
+      <div class="relative isolate">
         <div class={`mx-auto ${layout.container} ${sizeClasses}`}>
           {mobileSmall && (
             <div class="lg:hidden flex justify-center mb-6">
-              <img src={media_image.src} srcset={media_image.srcset} sizes="160px" alt="" aria-hidden="true" loading="eager" class="w-40 h-auto rounded-xl" />
+              <img src={media_image.src} srcset={media_image.srcset} sizes="160px" alt="" aria-hidden="true" loading="eager" class={`w-40 h-auto rounded-xl ${media_image_dark ? "block dark:hidden" : ""}`} />
+              {media_image_dark && (
+                <img src={media_image_dark.src} srcset={media_image_dark.srcset} sizes="160px" alt="" aria-hidden="true" loading="eager" class="w-40 h-auto rounded-xl hidden dark:block" />
+              )}
             </div>
           )}
           <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -294,7 +292,7 @@ export const HeroBlock = ({content, design, _id, icon_svg, secondary_icon_svg, m
   // Stacked layout: text top (constrained), media full-width below
   if (layout.stacked) {
     return (
-      <div class="relative isolate px-6 lg:px-8">
+      <div class="relative isolate">
         <div class={`mx-auto ${layout.container} ${sizeClasses}`}>
           <div class="mx-auto max-w-3xl">{contentStack}</div>
           {mediaEl && <div class="mt-16">{mediaEl}</div>}
@@ -305,7 +303,7 @@ export const HeroBlock = ({content, design, _id, icon_svg, secondary_icon_svg, m
 
   // Centered (default)
   return (
-    <div class="relative isolate px-6 lg:px-8">
+    <div class="relative isolate">
       <div class={`mx-auto ${layout.container} ${sizeClasses}`}>{contentStack}</div>
     </div>
   );
